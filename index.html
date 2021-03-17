@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>The Queen's Gambit</title>
+	<link href="https://fonts.googleapis.com/css2?family=Sen:wght@400;700;800&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+	<script src="https://d3js.org/d3.v5.min.js"></script>
+	<script src="https://unpkg.com/intersection-observer"></script>
+	<script src="https://unpkg.com/scrollama"></script>
+</head>
+<style type="text/css">
+	body, html {
+		top:0;
+		left:0;
+		margin:0;
+		font-family:'Helvetica Neue', sans-serif;
+	}
+	nav	{
+		background-color:white;
+		position:fixed;
+		width:100%;
+		display:flex;
+		justify-content: center;
+		align-items:center;
+		border-bottom:0.05em solid black;
+		z-index:100;
+	}
+	.title {
+		height:70vh;
+		color:#d9002f;
+		background-color:black;
+		background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/disp/9e9b8960209901.5a4241ac55568.gif');
+		background-repeat: repeat;
+		background-attachment: fixed;
+		background-position: left;
+		background-size: 100%;
+	}
+	.title h1 {
+		font-size:5em;
+		-webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: white;
+	}
+	.title h2 {
+		font-size:2em;
+		font-weight:600;
+		-webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: white;
+	}
+	.header {
+		text-align:center;
+		display:flex;
+		justify-content:center;
+		align-items:center;
+		border:0.1em solid black;
+		padding:5% 0%;
+		animation: fadeIn 0.5s ease-in-out;
+	}
+	.header h1{
+		font-family:'Helvetica Neue', sans-serif;
+		font-weight:800;
+		margin:0;
+	}
+	.header h2 {
+		margin:0;
+	}
+	.sticky {
+		float:right;
+		top:25%;
+		position:sticky;
+		width:50%;
+		display:inline-flex;
+					background-color:white;
+	}
+	.leftside{
+		background-color:black;
+		color:white;
+		width: 30%;
+    	padding: 5% 10% 5% 5%;
+	}
+	.progressive{
+		width:100%;
+		display:block;
+		margin-bottom:100%!important;
+	}
+	.end {
+		margin-bottom:5%!important;
+	}
+	#counter {
+		width:100%;
+		font-size:10em;
+		text-align:center;
+		margin:0;
+		padding:0%;
+		line-height:1em;
+		font-weight: 800;
+    	letter-spacing: -0.05em;
+	}
+	#counter h2{
+		text-align:center;
+	}
+	.text {
+		margin:5%;
+		line-height:2em;
+		opacity:0;
+		margin-top:10%;
+		transition:0.5s ease-in-out;
+	}
+	.text h1 {
+		font-size:4em;
+		letter-spacing:-0.05em;
+		line-height:1em;
+		font-weight:900;
+		width:60%;
+	}
+	.text h2 {
+		font-weight:400;
+		font-size:1em;
+		font-style:italic;
+	}
+	.sticky h1 {
+		width:100%;
+		font-size:3em;
+	}
+	.sticky h2 {
+		font-size:0.8em;
+		text-transform:uppercase;
+		letter-spacing:0.1em;
+	}
+	.center_aligner {
+		overflow:none;
+		width:100%;
+		display:flex;
+		align-items:center;
+		justify-content:center;
+		margin:2% 0%;
+	}
+	iframe {
+		border:0.5em solid black;
+		width:900px;
+		height:500px;
+	}
+	.tableauPlaceholder{
+		width:50%;
+		z-index:0;
+	}
+	img{
+		text-align:center;
+		margin:0%;
+		display:inline-block;
+		border:0 solid black;
+	}
+	.caption {
+		font-size:0.8em;
+		color:#666666;
+	}
+	.small {
+		width:30%;
+	}
+	.large {
+		width:80%;
+		display:block;
+	}
+	@keyframes fadeIn {
+		0%{
+			opacity:0;
+		}
+		100%{
+			opacity:1;
+		}
+
+	}
+	@media screen and (max-width:767px){
+		.sticky {
+	/*		bottom:0;*/
+			width:50%;
+			float:none;
+			margin:auto;
+			display:flex;
+			line-height:2em;
+		}
+		.sticky h1 {
+			font-size:2em;
+			line-height:2em;
+		}
+		.sticky h2 {
+			font-size:0.5em;
+		}
+		#counter {
+			font-size:5em;
+		}
+		.leftside {
+			width: 85%;
+    		padding: 5% 10% 5% 5%;
+		}
+		.small {
+			width:80%;
+		}
+		.title {
+			height:80vh;
+		}
+		.text h1 {
+			font-size:2.5em;
+			width:80%;
+		}
+		.text {
+			margin:10% 5%;
+		}
+		iframe {
+			height:300px;
+		}
+		.responsive {
+  width: 50%;
+  height: auto;
+
+	}
+
+	#image-container {
+    display: flex;
+    flex-wrap: wrap;
+ }
+
+#image-container img { 
+    width: 33.333%;
+    height: auto;
+ }
+
+@media ( max-width: 50em ) {
+#image-container img { 
+    width: 50%;
+  }
+ }
+
+@media ( max-width: 25em ) {
+#image-container img { 
+    width: 100%;
+  }
+  .center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+ }  
+</style>
+<body>
+
+<!-- nav -->
+<nav>
+	<h3></h3>
+</nav>
+
+<!-- text -->
+<div class='header title step'>
+	<div class='aligner'>
+		<h1>Queen's Gambit</h1>
+		<h2>The Top Women Masters of Chess</h2>	
+	</div>
+</div>
+
+
+<div class='text'>
+	<h2><b>Thomas Levinson -- Infograph & Visual Storytelling Spring '21</b></h2>	
+	The game of Chess is in the midst of a revival after Netflix's popular newe series "The Queen's Gambit" rekindled a new interest in the 1500-year-old board game. The website <a href="http://www.chess.com">Chess.com</a> has added more than 2.35 million players since the show debuted in October 2020 with female player registration up 15 percent. <a href="https://www.npr.org/2020/11/20/936732591/cant-find-a-chess-set-you-can-thank-the-queens-gambit-for-that"> Chess set sales are skyrocketing.</a> The ongoing coronavirus pandemic has forced real-world chess tournaments to move online. It is a perfect storm of people around the world staying inside to stay safe and many using their new abundance of free time to try out chess.
+	<p>Chess's reach isn't limited to erudite corners of the internet. The game has also managed to infiltrate massive streaming platforms like Twitch and Youtube. An amateur event that brought together popular streamers drew a combined 50 million viewers on Twitch in 2020, becoming the most-watched chess event in history.
+
+	
+</a>
+</div>
+
+<div class='text'>
+<p>
+<img src="https://drive.google.com/uc?id=1BhpAtPeBUnXQ4sbYQGcfTl-h_-dbjQ33" style="float:right; alt="Botez" class="responsive" height="500"> <h1 float:right; padding-left: 50px;>“Women in chess is not something very common,” <a href="https://www.cnbc.com/2021/02/19/25-year-old-earns-6-figures-playing-chess-on-twitch.html"> Alexandra Botez says.</a>“It has taken very long to get to the point where we’re starting to change the stereotype that women are not genetically inferior to men at playing chess.”</h1>
+</p>
+</div>
+
+<div class='text'>
+<p>“The Queen’s Gambit” follows a lone woman’s journey to the top of the male-dominated chess world in the 1960s. In today's chess there are nows hundreds of various master-level women chess players. The bulk of these masters are from Europe and Asia, especially the former Soviet Union, while America slowly tries to catch up.</p>
+<p>
+Russia and its neighbors continue to dominate in sheer numbers of male and female chess masters. The game has a rich tradition dating back centuries. During the reign of the Soviet Union chess was specifically sponsored and subsidized which can account for the consistent production of top players.</p>
+
+<p>This following graph showing the combined male and female chess master data captures the imbalance of the number of women chess players at the top of the chess world. It is expected that many of the women that have made it to the top are coming from countries with strong traditions and government support for the game.</p>
+</div>
+
+
+
+<div class='center_aligner'>
+<img src="https://drive.google.com/uc?id=1aCMrbH7bQ8ela7ep3xyIu--dwmUb0r1A" style= alt="Men_Women" class="responsive" height="700">
+</div>
+
+<div class='text'>
+	<p>China doesn't appear in the top five, but the country's competitivness is on the rise. The game has only taken hold for the last few decades, but strong government support have created a surge of Chinese chess players. While still in the shadow of Russia's chess dominance, Chinese women have begun reaching the top ranks including the current Women's World chess champion Ju Wenjun and Hou Yifan – the youngest female player ever to qualify for the title of grandmaster and four-times Women's World Chess Champion.
+</div>
+
+<div class='text'>
+<p>
+<img src="https://drive.google.com/uc?id=1oq2IiAE5UHrMQ7Aqa8yH4--pJxSCjMuj" style="float:right; alt=“Yifan” class="responsive height="500"> <br></br> <h1>“Growing up, female players are told, "If you win the girls’ title, we’ll be really proud of you, and this is a great job!" It’s unlikely that any of them were told, "No, you should be fighting for the overall title!"”</h1>
+</p>
+</div>
+
+<div class='text'>
+<p>Yifan points out how from an early age girls are not being told they can beat male chess players and become the best overall. Oxford Professor Merim Bilalic challenged the idea that men were innately better just because of their gender. <a href="https://www.discovermagazine.com/planet-earth/why-are-there-so-few-female-chess-grandmasters">His study</a> found the gap between male and female chess players has more to do with statistics than skill. The study found that the best men and women players have the same average and range in skill. Bilalic states the best players from a large group are probably going to be better than the best players from a small one. The major reason for the disparity among top men and women comes down to fewer women playing chess than men.</p>
+
+<p>Bilalic’s model revealed that the greater proportion of male chess players accounts for 96% of the difference in ability between the two genders. What that tells us is if the amount of women players continue to rise, it is only a matter of time before women and men are battling on equal footing at the top of the field.</p>
+
+
+
+</div>
+
+<!-- tableau public -->
+<div class='center_aligner'>
+	<!-- insert tableau public embed link below this line -->
+	<div class='tableauPlaceholder' id='viz1615929236813' style='position: relative'><noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;To&#47;TopWomensChessPlayersDashboard&#47;FinalDashboard&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='TopWomensChessPlayersDashboard&#47;FinalDashboard' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;To&#47;TopWomensChessPlayersDashboard&#47;FinalDashboard&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1615929236813');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='1016px';vizElement.style.height='991px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='1016px';vizElement.style.height='991px';} else { vizElement.style.width='100%';vizElement.style.height='1527px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+</div>
+
+<div margin-top: 0px; padding: 20px; class='text'>
+<p>
+<img src="https://drive.google.com/uc?id=1bdtxmidbM_w7BzOfkkiVOcnsxvQj33k5" style="float:right; alt=“JPolgar” class="responsive height="425"><h1 style=left; padding-right: 20px;>“India and China are improving by leaps and bounds and it will be their chess players who will lead the revolution of the XXI century.”</h1>
+</p>
+</div>
+
+<!-- interactive embed, adjust the width and height as necessary, copy lines 155 to 157 to create a new interactive embed --> 
+<div class='text'>
+	<p style="margin-left: 2.5em;padding: 0 7em 2em 0;border-width: 2px; border-color: white; border-style:solid;">&ensp;&ensp;</p>
+</div>
+
+
+<!-- counter -->
+<div class='header sticky step' id='dynamic_sticky1'>
+</div>
+
+
+<div class='leftside'>
+
+	<div class='text progressive'>
+	<h1>No difference in potential</h1>
+	The more young girls and women are encouraged to play, the more women will achieve the rank of Grandmaster.
+	</div>
+
+	<div class='text progressive'>
+	<h1>Netflix has helped</h1>
+	"The Queen's Gambit" on Netflix has sparked a new desire to pick up the game of chess. Specifically, women are registering new accounts on Chess.com more than before. 50,000-60,000 new members overall were joining the site each day in March 2020, a number that jumped to 125,000 following the show's
+	</div>
+
+	<div class='text progressive end'>
+	<h1>Chess has become cool again?</h1>
+	In January 2020, chess was averaging 3,298 concurrent viewers on the popular game streaming website Twitch, peaking at 29,820 viewers. A year later, that average was 24,048 viewers, with around 132 channels streaming chess, reaching a peak viewership of 161,968. 
+	</div>
+
+</div>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+<div><h1><center><img src="https://images.ctfassets.net/4cd45et68cgf/5hKSvxaIWnI1uknRES3gQO/a3c64a0fb4f3cb11abf4d2d219910918/image8.gif" class="center" width="auto" height="400" alt="null"></center></h1></div>
+
+<div class='text'>
+	<h1>Takeaways</h1>
+	<p>The data shows the strongholds of chess for men and women are far and away Russia. What will be interesting to see is how long "The Queen's Gambit" fever lasts among the new chess players. Will the numbers begin to dwindle once countries beging to fully reopen following the pandemic? This data though is mainly looking at the top players' rankings as of today. It is unable to see the effect, however long it lasts, of a popular TV show on the future generations of chess players.</p> 
+	<p>It also is unable to see what online streaming sites like Twitch and Youtube can do to the world of chess. Before very few master-level chess players could earn enough money to live solely on playing chess alone. This reality can knockout and close off the world of professional chess to men and women alike. The streaming platforms for the first time allow master chess players of all levels and ages to earn money by being entertaining and good at chess. Could that create the necessary environment to attract more women and in turn more female grandmasters in the long run? This 1500-year-old game is entering an exciting next stage in its existance that few could have predicted.</p>
+</div>
+
+<!-- image 3 -->
+
+
+</body>
+<script type="text/javascript">
+
+// instantiate the scrollama
+const scroller = scrollama();
+const scroller2 = scrollama();
+
+scroller
+  .setup({
+    step: ".text",
+    offset: 0.9,
+  })
+  .onStepEnter(response => {
+    // { element, index, direction }
+    el=response.element;
+    el.style.opacity=1;
+    el.style.marginTop='5%';    
+  })
+  .onStepExit(response => {
+    // { element, index, direction }  
+    el=response.element;
+  })
+  ;
+ // setup resize event
+window.addEventListener("resize", scroller.resize);
+
+scroller2
+  .setup({
+    step: ".progressive",
+    offset: 0.6,
+  })
+  .onStepEnter(response => {
+    // { element, index, direction }
+    el=response.element;
+    el.style.opacity=1;
+    if(response.index==0 || 1 || 2){
+    	stick('dynamic_sticky1')
+    	response.direction=='down'
+    	if(response.index==0){
+    		count(0,1,.1,'Women make up','of Grandmasters','dynamic_sticky1')
+    	} else if (response.index==1){
+    		count(0,15,1,'Chess.com has seen','increase in new female accounts since Fall 2020','dynamic_sticky1')
+    	} else if (response.index==2){
+    		count(0,600,10,'Twitch users watching chess','increase','dynamic_sticky1')
+    	}
+    }
+  })
+  .onStepExit(response => {
+    // { element, index, direction }  
+    el=response.element;
+    console.log(response.index)
+    if(response.index==2){
+    	unstick('dynamic_sticky1')
+    }
+    el.style.opacity=0;
+  })
+  ;
+ // setup resize event
+window.addEventListener("resize", scroller2.resize);
+
+function count(number1, number2, step, title, label, location_id, prefix='', suffix='%'){
+	target = document.querySelector('#'+location_id)
+	console.log(target)
+	let text=number1;
+
+	setInterval(function(){
+		if(text!=number2){
+			num = text+step
+			if(num % 1 == 0){
+				text = num
+			} else {
+				text = parseFloat(num.toFixed(2))
+			}
+			target.innerHTML="<div class='aligner'><h1>"+title+"</h1><div id='counter'>"+prefix+text+suffix+"</div><h2>"+label+"</h2></div>"
+		}
+	}, 30);
+}
+
+function stick(location_id){
+	target = document.querySelector('#'+location_id)
+	target.style.position="sticky"
+}
+
+function unstick(location_id){
+	target = document.querySelector('#'+location_id)
+	target.style.position="relative"
+}
+
+</script>
+
+</html>
